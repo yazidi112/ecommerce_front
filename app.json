@@ -1,0 +1,12 @@
+{
+  "name": "front3",
+  "displayName": "front3",
+  "expo": {
+    "name": "front3",
+    "slug": "front3",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
