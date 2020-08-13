@@ -1,23 +1,29 @@
 import React from 'react';
-import {  Text, View,Button,Image,ListView } from 'react-native';
+import { StyleSheet, Text, View,Button,Image,ListView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import api from './api';
 import { styles  } from './styles';
 import Produits from './Produits';
 
-
-export default class Home extends React.Component{
+export default class categories extends React.Component{
 
     state = {
+        categories: [],
         articles: [],
         message: '' 
     }
 
     componentDidMount(){
-         this.getArticles('');
+        this.getCategories();
     }
     
-     
+    getCategories(){
+        api.get('/categories').then(
+            res => {
+                this.setState({categories: res.data});
+            }
+        )
+    }
 
     getArticles(catid){
         this.setState({articles:[]});
@@ -35,25 +41,9 @@ export default class Home extends React.Component{
         )
     }
     
-    search(text){
-        this.setState({articles:[]});
-        this.setState({message:'Recherche..'});
-        api.get('/articles?titre='+text).then(
-            res => {
-                if(res.data.length !== 0){
-                    this.setState({articles: res.data});
-                    this.setState({message:''});
-                    
-                }else{
-                    this.setState({message:'Aucun article'});
-                    this.setState({articles:[]});
-                }
-                
-            }
-        )
-    }
     
     ajouterAuPanier(art){
+        console.log(art);
         let panier = [];
         if(localStorage.getItem('panier'))
             panier = JSON.parse(localStorage.getItem('panier'));
@@ -66,19 +56,19 @@ export default class Home extends React.Component{
     render(){
          return(
             <View>
-                <Text style={styles.title}>Accueil</Text>
+                <Text style={styles.title}>Catégories</Text>
                 <View style={{margin: 10}}>
-                    <TextInput placeholder="Recherche produit." style={{borderWidth: 1,borderColor: '#ccc',backgroundColor: "#fff", padding:5, marginVertical:10}} 
-                        onChangeText={(text) => this.search(text)}
-                    />
-                    <view  style={{marginVertical:5}}>
-                        <text>{this.state.message}</text>
-                        <Produits ajouterAuPanier={this.ajouterAuPanier} data={this.state.articles} />
-                    </view>
+                <View style={{marginVertical:5}}>
+                    {this.state.categories.map((cat)=>{
+                        return <Button title={cat.intitule} color="#a903a9" style={{ paddingVertical:4 }}
+                            onPress={this.getArticles.bind(this,cat.id)}
+                        />
+                    })}
                 </View>
+                <Produits ajouterAuPanier={this.ajouterAuPanier} data={this.state.articles} />
+            </View>
             </View>
           )
     }
 }
 
- 
