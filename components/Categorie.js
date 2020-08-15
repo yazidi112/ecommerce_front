@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button,Image,ListView } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import {   Text,TouchableOpacity, View  } from 'react-native';
 import api from './api';
 import { styles  } from './styles';
 import Produits from './Produits';
+import Footer from './Footer';
+
 
 export default class categories extends React.Component{
 
@@ -56,17 +57,17 @@ export default class categories extends React.Component{
     render(){
          return(
             <View>
-                <Text style={styles.title}>Catégories</Text>
-                <View style={{margin: 10}}>
+                 <View style={{margin: 10}}>
                 <View style={{marginVertical:5}}>
                     {this.state.categories.map((cat)=>{
-                        return <Button title={cat.intitule} color="#a903a9" style={{ paddingVertical:4 }}
-                            onPress={this.getArticles.bind(this,cat.id)}
-                        />
+                        return <TouchableOpacity  onPress={this.getArticles.bind(this,cat.id)}>
+                            <Text style={styles.button3}>{cat.intitule}</Text>
+                        </TouchableOpacity>
                     })}
                 </View>
                 <Produits ajouterAuPanier={this.ajouterAuPanier} data={this.state.articles} />
             </View>
+            <Footer navigation={this.props.navigation} /> 
             </View>
           )
     }

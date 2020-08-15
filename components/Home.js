@@ -1,10 +1,10 @@
 import React from 'react';
-import {  Text, View,Button,Image,ListView } from 'react-native';
+import {  Text, View,Button,TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import api from './api';
 import { styles  } from './styles';
 import Produits from './Produits';
-
+import Footer from './Footer';
 
 export default class Home extends React.Component{
 
@@ -65,10 +65,38 @@ export default class Home extends React.Component{
 
     render(){
          return(
-            <View>
-                <Text style={styles.title}>Accueil</Text>
+            <View style={{marginBottom:40}}>
+                <View style={{backgroundColor:'white',borderBottomWidth:1,borderBottomColor:'#ccc'}}>
+                 {!localStorage.getItem('user') && 
+                    
+                        <View style={styles.fixToText}>
+                            <TouchableOpacity  onPress={() =>
+                                this.props.navigation.navigate('Login')
+                            }><Text style={styles.button2}>Connexion</Text></TouchableOpacity>
+
+                            <TouchableOpacity  onPress={() =>
+                                this.props.navigation.navigate('Signup')
+                            }><Text style={styles.button2}>S'inscrire</Text></TouchableOpacity>
+
+                        </View>
+                    
+                }
+                {localStorage.getItem('user') && 
+                    <View style={styles.fixToText}>
+                        <Text style={{margin:'4px'}}>
+                            Bienvenue <Text style={{fontWeight:'bold'}}>{JSON.parse(localStorage.getItem('user')).email}</Text>
+                        </Text>
+                        <TouchableOpacity  onPress={() =>{
+                                localStorage.removeItem('user');
+                                this.props.navigation.navigate('Accueil', { update: 'update' })
+                            }
+                        }><Text style={styles.button2}>Déconnexion</Text></TouchableOpacity>
+                         
+                    </View>
+                }
+                </View>
                 <View style={{margin: 10}}>
-                    <TextInput placeholder="Recherche produit." style={{borderWidth: 1,borderColor: '#ccc',backgroundColor: "#fff", padding:5, marginVertical:10}} 
+                    <TextInput placeholder="Recherche produit." style={styles.input} 
                         onChangeText={(text) => this.search(text)}
                     />
                     <view  style={{marginVertical:5}}>
@@ -76,6 +104,8 @@ export default class Home extends React.Component{
                         <Produits ajouterAuPanier={this.ajouterAuPanier} data={this.state.articles} />
                     </view>
                 </View>
+                <Footer navigation={this.props.navigation} />                    
+                 
             </View>
           )
     }

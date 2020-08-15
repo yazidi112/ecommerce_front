@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //const token = localStorage.getItem("token");
-const url = "http://localhost:8000/api";
+const url = "http://192.168.1.4:8000/api";
 const api = axios.create({
     baseURL : url,
     headers: {

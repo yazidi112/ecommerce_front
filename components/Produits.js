@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Image,Text,Button} from 'react-native';
+import {View,Image,Text,TouchableOpacity} from 'react-native';
 import { styles  } from './styles';
 
 export default class Produit extends React.Component{
@@ -7,18 +7,20 @@ export default class Produit extends React.Component{
         return(
             <View>
             {this.props.data.map((art)=>{
-                return <View style={{paddingVertical:5}}>
+                return <View style={{marginBottom: 10, paddingVertical:5,paddingTop:0, backgroundColor:'white',textAlign:'center'}}>
                     <Image source={{uri: art.image}}  style={styles.img}/>
                     
-                    <View style={styles.fixToText}>
-                        <Text style={{fontWeight:'bold'}}>
+                    <View >
+                        <Text style={{color:'#555'}}>
                             {art.titre}
-                            <br/> 
+                        </Text>
+                        <Text style={{fontWeight:'bold'}}> 
                             {art.prix} DH
                         </Text>
-                        <Button title="Ajouter au panier" color='#D253D1' style={styles.button} 
-                            onPress={this.props.ajouterAuPanier.bind(this,art)}
-                        />
+                        <TouchableOpacity  onPress={
+                            this.props.ajouterAuPanier.bind(this,art)
+                        }><Text style={styles.button3}>Ajouter au panier</Text></TouchableOpacity>
+                         
                     </View>
                 </View>
             })}
