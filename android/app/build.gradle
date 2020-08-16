@@ -147,10 +147,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('imran.keystore')
+            storePassword '19871987'
+            keyAlias 'imran'
+            keyPassword '19871987'
         }
     }
     buildTypes {

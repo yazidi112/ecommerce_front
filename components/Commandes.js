@@ -9,30 +9,26 @@ export default class Commandes extends React.Component{
      
     state = {
         commandes: [],
-        commande : {lignecommandes:[]},
-        user     : JSON.parse(localStorage.getItem('user'))
+        user     : JSON.parse(localStorage.getItem('user')),
+        message  : ''
     }
 
     componentDidMount(){
         this.getCommandes();
     }
 
-    getCommandes(){
+    getCommandes = () =>{
+        this.setState({message:'Chargement en cours..'});
         let id = this.state.user? this.state.user.id: null;
         api.get('/commandes?user='+id).then(
             res => {
                 this.setState({commandes: res.data});
+                this.setState({message:''});
             }
         )
     }
 
-    getSelectedCommande(id){
-        api.get('/commandes/'+id).then(
-            res => {
-                this.setState({commande: res.data});
-            }
-        )
-    }
+    
 
     render(){
         if(!localStorage.getItem('user'))
@@ -50,42 +46,19 @@ export default class Commandes extends React.Component{
         return(
             <View style={{margin:10}}>
                   <View style={{backgroundColor:'white',padding:5,marginBottom:10}}>
+                    <Text>{this.state.message}</Text>
                     {this.state.commandes.map((c,index)=>{
                         return  <View key={index} style={styles.fixToText}>
                                     <Text>{c.id}</Text>
                                     <Text>{c.date}</Text>
-                                    <TouchableOpacity  onPress={
-                                        this.getSelectedCommande.bind(this,c.id)
+                                    <TouchableOpacity  onPress={() =>
+                                        this.props.navigation.navigate("Détails Commande",{id: c.id})
                                     }><Text style={styles.button3}>Détails</Text></TouchableOpacity>
                                      
                                 </View>
                     })}
                  </View>
-                <View style={{backgroundColor:'white',padding:5}}>
-                <View  style={styles.fixToText}>
-                    <Text>Article</Text>
-                    <Text>Prix</Text>
-                    <Text>Quantité</Text>
-                    <Text>Montant</Text>
-                </View>
-                <View style={styles.separator} />
-                {this.state.commande.lignecommandes.map((ligne,index)=>{
-                    return  <View key={index} style={styles.fixToText}>
-                                <Text>{ligne.article.titre}</Text>
-                                <Text>{ligne.prix} DH</Text>
-                                <Text>{ligne.quantite}</Text>
-                                <Text>{ligne.prix * ligne.quantite} DH</Text>
-                            </View>
-                })}
-                {this.state.commande.lignecommandes.length>0 &&
-                <View style={styles.fixToText}>
-                    <Text style={{fontWeight:'bold'}}>TOTAL</Text>
-                    <Text style={{fontWeight:'bold'}}>
-                        {(this.state.commande.lignecommandes.reduce((a, b) => parseFloat(a) + parseFloat(b.prix * b.quantite), 0)).toFixed(2)} DH
-                    </Text>
-                </View>
-                }
-                </View>
+               
                 <Footer navigation={this.props.navigation} />  
             </View>
           )
