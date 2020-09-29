@@ -26,7 +26,7 @@ import { StyleSheet } from 'react-native'
       justifyContent: 'space-between',
    },
    input : {
-    height: 40, padding:4, borderColor: '#f56b3f', borderWidth: 1, backgroundColor: '#fff',marginVertical:8
+    height: 40, padding:4, borderColor: '#f56b3f', borderRadius:5,borderWidth: 1, backgroundColor: '#fff',marginVertical:8
    },
    img: {
        width: '100%',

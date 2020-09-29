@@ -96,7 +96,7 @@ export default class Home extends React.Component{
                 }
                 </View>
                 <View style={{margin: 10}}>
-                    <TextInput placeholder="Recherche produit." style={styles.input} 
+                    <TextInput placeholder="Rechercher un produit." style={styles.input} 
                         onChangeText={(text) => this.search(text)}
                     />
                     <view  style={{marginVertical:5}}>

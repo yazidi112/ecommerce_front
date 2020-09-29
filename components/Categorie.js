@@ -2,7 +2,6 @@ import React from 'react';
 import {   Text,TouchableOpacity, View  } from 'react-native';
 import api from './api';
 import { styles  } from './styles';
-import Produits from './Produits';
 import Footer from './Footer';
 
 

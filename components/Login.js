@@ -2,7 +2,6 @@ import React from 'react';
 import {   Text, View,TouchableOpacity,TextInput } from 'react-native';
 import api from './api';
 import { styles } from './styles';
-import axios from 'axios';
 
 export default class Login extends React.Component{
 
@@ -12,7 +11,7 @@ export default class Login extends React.Component{
         message     : ''
     }
 
-    login =() => {
+    login = () => {
         api.post('../login?email='+this.state.email+'&password='+this.state.password).then(
             res =>{
                 console.log(res);
@@ -29,6 +28,7 @@ export default class Login extends React.Component{
             }
         );
     }
+    
     render(){
         return(
             <View style={{margin:10}}>
